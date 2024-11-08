@@ -1,4 +1,8 @@
+using System.Diagnostics;
+using AspireTemplate.ApiService;
 using AspireTemplate.ApiService.Database;
+using AspireTemplate.ApiService.Endpoints;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,9 +10,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 // Add services to the container.
-builder.Services.AddProblemDetails();
+builder.Services.AddProblemDetails( options => {
+    options.CustomizeProblemDetails = context => {
+        context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+        context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+        var activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
+        context.ProblemDetails.Extensions.TryAdd("traceid", activity?.RootId);
+        context.ProblemDetails.Extensions.TryAdd("spanid", activity?.ParentSpanId);
+    };
+});
 
 builder.AddNpgsqlDbContext<DatabaseContext>(connectionName: "postgresdb");
+builder.Services.AddExceptionHandler<ProblemExceptionHandler>();
+builder.Services.AddScoped<IPersonService,PersonService>();
 
 var app = builder.Build();
 
@@ -21,6 +35,7 @@ var summaries = new[]
 };
 
 app.MapGet("/", () => "Hello World!");
+app.MapGroup("/people").MapPersonEndpoints();
 
 app.MapGet("/weatherforecast", () =>
 {

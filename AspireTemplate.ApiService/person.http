@@ -1,0 +1,28 @@
+@port = 7425
+
+### Get all persons
+GET https://localhost:{{port}}/people
+
+### Get a person by ID
+GET https://localhost:{{port}}/people/1
+
+### Create a new person
+POST http://localhost:5000/person
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "age": 30
+}
+
+### Update a person by ID
+PUT http://localhost:5000/person/1
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "age": 25
+}
+
+### Delete a person by ID
+DELETE http://localhost:5000/person/1
