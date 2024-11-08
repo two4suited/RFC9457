@@ -15,42 +15,10 @@ namespace AspireTemplate.ApiService.Endpoints
         {
             group.MapGet("/", async (IPersonService service) => await service.GetPeople());
             group.MapGet("/{id}", async (IPersonService service, int id) => await service.GetPerson(id));
+            group.MapPost("/", async (IPersonService service, Person person) => await service.CreatePerson(person));
+            group.MapPut("/{id}", async (IPersonService service, int id, Person person) => await service.UpdatePerson(id, person));            
+            group.MapDelete("/{id}", async (IPersonService service, int id) => await service.DeletePerson(id));
             
-
-            group.MapPost("/person", async (DatabaseContext db, Person person) =>
-            {
-                db.People.Add(person);
-                await db.SaveChangesAsync();
-                return person;
-            });
-
-            group.MapPut("/person/{id}", async (DatabaseContext db, int id, Person person) =>
-            {
-                var existingPerson = await db.People.FindAsync(id);
-                if (existingPerson == null)
-                {
-                    throw new ProblemException("Person not found", $"Person with id {id} not found.");
-                }
-
-                existingPerson.Age = person.Age;
-                existingPerson.Name = person.Name;
-                await db.SaveChangesAsync();
-                return existingPerson;
-            });
-
-            group.MapDelete("/person/{id}", async (DatabaseContext db, int id) =>
-            {
-                var person = await db.People.FindAsync(id);
-                if (person == null)
-                {
-                    throw new ProblemException("Person not found", $"Person with id {id} not found.");
-                }
-
-                db.People.Remove(person);
-                await db.SaveChangesAsync();
-                return person;
-            });
-
             return group;
         }
     }

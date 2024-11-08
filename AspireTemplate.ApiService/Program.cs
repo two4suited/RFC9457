@@ -2,6 +2,8 @@ using System.Diagnostics;
 using AspireTemplate.ApiService;
 using AspireTemplate.ApiService.Database;
 using AspireTemplate.ApiService.Endpoints;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +25,9 @@ builder.Services.AddProblemDetails( options => {
 builder.AddNpgsqlDbContext<DatabaseContext>(connectionName: "postgresdb");
 builder.Services.AddExceptionHandler<ProblemExceptionHandler>();
 builder.Services.AddScoped<IPersonService,PersonService>();
+builder.Services.AddValidatorsFromAssemblyContaining<PersonValidator>();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
 
 var app = builder.Build();
 

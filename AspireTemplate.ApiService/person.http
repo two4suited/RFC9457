@@ -7,16 +7,16 @@ GET https://localhost:{{port}}/people
 GET https://localhost:{{port}}/people/1
 
 ### Create a new person
-POST http://localhost:5000/person
+POST https://localhost:{{port}}/people
 Content-Type: application/json
 
 {
   "name": "John Doe",
-  "age": 30
+  "age": 150
 }
 
 ### Update a person by ID
-PUT http://localhost:5000/person/1
+PUT https://localhost:{{port}}/people/1
 Content-Type: application/json
 
 {
@@ -25,4 +25,4 @@ Content-Type: application/json
 }
 
 ### Delete a person by ID
-DELETE http://localhost:5000/person/1
+DELETE https://localhost:{{port}}/people/1
