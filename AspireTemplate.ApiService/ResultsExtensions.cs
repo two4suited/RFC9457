@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Npgsql.Replication;
+using PersonAPI.Service.Models;
 
 namespace AspireTemplate.ApiService
 {
@@ -10,31 +12,56 @@ namespace AspireTemplate.ApiService
     {
         public static IResult ValidationProblems(this IResultExtensions result,string type,string title,string detail, IDictionary<string, string[]> errors, ILogger logger)
         {
-            logger.LogError("Validation Problem: {type} {title} {detail} {errors}",type,title,detail,errors);
-            return Results.ValidationProblem(
-                errors:errors, 
-                detail:detail, 
-                statusCode:StatusCodes.Status400BadRequest, 
-                title:title,
-                type:type);
+            var errorDetails = errors.Select(e => $"{e.Key}: [{string.Join(", ", e.Value)}]").ToArray();
+            logger.LogError("Validation Problem: {type} {title} {detail} {errors}",type,title,detail,string.Join("; ", errorDetails));
+
+
+            var validation = new ValidationError()
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Title = title,
+                Detail = detail,
+                Type = type,
+                Errors = errors.Select(e => new ErrorDetail()
+                {
+                    Key = e.Key,
+                    Messages = e.Value
+                }).ToArray()
+            };
+
+            return Results.BadRequest<ValidationError>(validation);
         }
         public static IResult NotFound(this IResultExtensions result,string type,string title,string detail, ILogger logger)
         {
             logger.LogWarning("Not Found: {type} {title} {detail}",type,title,detail);
-            return Results.Problem(
-                detail:detail, 
-                statusCode:StatusCodes.Status404NotFound, 
-                title:title,
-                type:type);
+            var notFound = new NotFoundError()
+            {
+                StatusCode = StatusCodes.Status404NotFound,
+                Title = title,
+                Detail = detail,
+                Type = type
+            };
+            return Results.NotFound<NotFoundError>(notFound);
         }
         public static IResult InternalServerError(this IResultExtensions result,string type,string title,string detail, ILogger logger)
         {
             logger.LogError("Internal Server Error: {type} {title} {detail}",type,title,detail);
-            return Results.Problem(
-                detail:detail, 
-                statusCode:StatusCodes.Status500InternalServerError, 
-                title:title,
-                type:type);
+            var error = new InternalServerError()
+            {
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Title = title,
+                Detail = detail,
+                Type = type
+            };
+            var problem = new ProblemDetails()
+            {
+                Status = StatusCodes.Status500InternalServerError,
+                Title = title,
+                Detail = detail,
+                Type = type
+            };
+
+            return Results.Problem(problem);
         }
         
     }

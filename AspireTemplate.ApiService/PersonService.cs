@@ -38,7 +38,7 @@ namespace AspireTemplate.ApiService
             {
                 db.People.Remove(person);
                 await db.SaveChangesAsync();
-                return Results.Ok(person);
+                return Results.NoContent();
             }
             catch (Exception e)
             {

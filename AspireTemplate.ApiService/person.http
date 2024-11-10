@@ -12,7 +12,7 @@ Content-Type: application/json
 
 {
   "name": "John Doe",
-  "age": 150
+  "age": 100
 }
 
 ### Update a person by ID

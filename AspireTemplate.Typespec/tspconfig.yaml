@@ -1,2 +1,8 @@
 emit:
   - "@typespec/openapi3"
+  - "@typespec/http-server-csharp"
+options:
+  "@typespec/openapi3":
+      output-file: "{project-root}/../AspireTemplate.ApiService/openapi3.yaml"  
+  "@typespec/http-server-csharp":
+        emitter-output-dir: "{project-root}/../AspireTemplate.ApiService/Domain"

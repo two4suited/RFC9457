@@ -2,18 +2,17 @@ model Error
 {
     requestId: string;
     traceId: string;
-    detail: string;
-    statusCode: int32;
+    detail: string;   
     title: string;
     type: string;
    
 }
 
-model BadRequestError extends Error
+model InternalServerError extends Error
 {
     statusCode: 500;
 }
-@error
+
 model NotFoundError extends Error
 {
     statusCode: 404;

@@ -3,7 +3,7 @@ import "@typespec/http";
 
 using TypeSpec.Http;
 
-alias ApiErrors = Forbidden | Unauthorized | NotFound | BadRequest | Validation;
+alias ApiErrors = Forbidden | Unauthorized | NotFound | InternalServer | Validation;
 
 @error
 model Forbidden {
@@ -24,9 +24,9 @@ model NotFound {
 }
 
 @error
-model BadRequest {
+model InternalServer {
   @statusCode statusCode: 500;
-  @body error: BadRequestError;
+  @body error: InternalServerError;
 }
 
 @error
