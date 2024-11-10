@@ -12,7 +12,7 @@ using TypeSpec.Rest;
 @service({
   title: "Person API",
 })
-@server("https://localhost:4000", "Local development server")
+@server("https://localhost:7425", "Local development server")
 namespace PersonAPI;
 
 @route("/persons")
