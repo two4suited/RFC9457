@@ -17,7 +17,7 @@ namespace AspireTemplate.ApiService
 
 
             var validation = new ValidationError()
-            {
+            {               
                 Title = title,
                 Detail = detail,
                 Type = type,
@@ -33,8 +33,9 @@ namespace AspireTemplate.ApiService
         public static IResult NotFound(this IResultExtensions result,string type,string title,string detail, ILogger logger)
         {
             logger.LogWarning("Not Found: {type} {title} {detail}",type,title,detail);
-            var notFound = new Error()
+            var notFound = new ProblemDetails()
             {
+                Status = StatusCodes.Status404NotFound,
                 Title = title,
                 Detail = detail,
                 Type = type
@@ -44,12 +45,7 @@ namespace AspireTemplate.ApiService
         public static IResult InternalServerError(this IResultExtensions result,string type,string title,string detail, ILogger logger)
         {
             logger.LogError("Internal Server Error: {type} {title} {detail}",type,title,detail);
-            var error = new Error()
-            {
-                Title = title,
-                Detail = detail,
-                Type = type
-            };
+          
             var problem = new ProblemDetails()
             {
                 Status = StatusCodes.Status500InternalServerError,

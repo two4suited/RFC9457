@@ -76,8 +76,8 @@ namespace AspireTemplate.Tests
             var response = await httpClient.PostAsync("/people", new StringContent(JsonConvert.SerializeObject(person), Encoding.UTF8, "application/json"));
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var returnPerson = JsonConvert.DeserializeObject<Person>(await response.Content.ReadAsStringAsync());
-            Assert.Equal(person.Name, returnPerson.Name);
-            Assert.Equal(person.Age, returnPerson.Age);
+            Assert.Equal(person.Name, returnPerson?.Name);
+            Assert.Equal(person.Age, returnPerson?.Age);
         }
 
         [Fact]

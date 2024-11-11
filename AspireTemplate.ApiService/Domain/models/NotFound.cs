@@ -5,14 +5,12 @@
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace PersonAPI.Service.Models
 {
 
-    public partial class NotFound
+    public partial class NotFound : ProblemDetails
     {
-        public Error Error { get; set; }
-
-
     }
 }
