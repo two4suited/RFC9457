@@ -2,7 +2,6 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/openapi3";
 import "./models.tsp";
-import "./errors.tsp";
 import "./responses.tsp";
 
 using TypeSpec.Http;

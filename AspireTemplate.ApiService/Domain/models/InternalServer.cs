@@ -9,10 +9,8 @@ using System.Text.Json.Serialization;
 namespace PersonAPI.Service.Models
 {
 
-    public partial class InternalServer
+    public partial class InternalServer : Error
     {
-        public InternalServerError Error { get; set; }
-
 
     }
 }

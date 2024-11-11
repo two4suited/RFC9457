@@ -11,8 +11,6 @@ namespace PersonAPI.Service.Models
 
     public partial class ValidationError : Error
     {
-        public object StatusCode { get; set; }
-
         public ErrorDetail[] Errors { get; set; }
 
 

@@ -11,7 +11,7 @@ namespace PersonAPI.Service.Models
 
     public partial class Unauthorized
     {
-        public UnauthorizedError Error { get; set; }
+        public Error Error { get; set; }
 
 
     }

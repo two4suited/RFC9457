@@ -53,7 +53,7 @@ namespace PersonAPI.Service.Controllers
         [HttpPut]
         [Route("/persons/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Person))]
-        public virtual async Task<IActionResult> UpdatePerson(int id, Person body)
+        public virtual async Task<IActionResult> UpdatePerson(int id,Person body)
         {
             var result = await PersonOperationsImpl.UpdatePersonAsync(id, body);
             return Ok(result);

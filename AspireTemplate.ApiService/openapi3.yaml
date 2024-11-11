@@ -27,27 +27,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnauthorizedError'
+                $ref: '#/components/schemas/Error'
         '403':
           description: Access is forbidden.
           content:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/ForbiddenError'
-                  - $ref: '#/components/schemas/ForbiddenError'
+                  - $ref: '#/components/schemas/Error'
+                  - $ref: '#/components/schemas/Error'
         '404':
           description: The server cannot find the requested resource.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalServerError'
+                $ref: '#/components/schemas/InternalServer'
       requestBody:
         required: true
         content:
@@ -83,25 +83,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnauthorizedError'
+                $ref: '#/components/schemas/Error'
         '403':
           description: Access is forbidden.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ForbiddenError'
+                $ref: '#/components/schemas/Error'
         '404':
           description: The server cannot find the requested resource.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalServerError'
+                $ref: '#/components/schemas/InternalServer'
   /persons/{id}:
     get:
       operationId: PersonOperations_getPerson
@@ -130,25 +130,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnauthorizedError'
+                $ref: '#/components/schemas/Error'
         '403':
           description: Access is forbidden.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ForbiddenError'
+                $ref: '#/components/schemas/Error'
         '404':
           description: The server cannot find the requested resource.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalServerError'
+                $ref: '#/components/schemas/InternalServer'
     put:
       operationId: PersonOperations_updatePerson
       parameters:
@@ -176,25 +176,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnauthorizedError'
+                $ref: '#/components/schemas/Error'
         '403':
           description: Access is forbidden.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ForbiddenError'
+                $ref: '#/components/schemas/Error'
         '404':
           description: The server cannot find the requested resource.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalServerError'
+                $ref: '#/components/schemas/InternalServer'
       requestBody:
         required: true
         content:
@@ -229,25 +229,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnauthorizedError'
+                $ref: '#/components/schemas/Error'
         '403':
           description: Access is forbidden.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ForbiddenError'
+                $ref: '#/components/schemas/Error'
         '404':
           description: The server cannot find the requested resource.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NotFoundError'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalServerError'
+                $ref: '#/components/schemas/InternalServer'
 components:
   schemas:
     Error:
@@ -281,37 +281,8 @@ components:
           type: array
           items:
             type: string
-    ForbiddenError:
+    InternalServer:
       type: object
-      required:
-        - statusCode
-      properties:
-        statusCode:
-          type: number
-          enum:
-            - 403
-      allOf:
-        - $ref: '#/components/schemas/Error'
-    InternalServerError:
-      type: object
-      required:
-        - statusCode
-      properties:
-        statusCode:
-          type: number
-          enum:
-            - 500
-      allOf:
-        - $ref: '#/components/schemas/Error'
-    NotFoundError:
-      type: object
-      required:
-        - statusCode
-      properties:
-        statusCode:
-          type: number
-          enum:
-            - 404
       allOf:
         - $ref: '#/components/schemas/Error'
     Person:
@@ -331,27 +302,11 @@ components:
           format: int32
           minimum: 0
           maximum: 150
-    UnauthorizedError:
-      type: object
-      required:
-        - statusCode
-      properties:
-        statusCode:
-          type: number
-          enum:
-            - 401
-      allOf:
-        - $ref: '#/components/schemas/Error'
     ValidationError:
       type: object
       required:
-        - statusCode
         - errors
       properties:
-        statusCode:
-          type: number
-          enum:
-            - 400
         errors:
           type: array
           items:
